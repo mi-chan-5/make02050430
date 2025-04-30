@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>泡の表現</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, lightblue 50%, #ffff89 50%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bubble-btn {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ffbf7f;
+      border: 1px solid #ffffff;
+      cursor: pointer;
+      animation: floatUp 5s ease-in-out infinite;
+      font-size: 16px;
+      color: #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .bubble-btn::before {
+      content: '';
+      position: absolute;
+      top: 18%;
+      left: 22%;
+      width: 15px;
+      height: 7px;
+      background-color: white;
+      border-radius: 30%;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(10vw);
+      }
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(0);
+      }
+    }
+
+    .bubble-pop {
+      animation: pop 0.2s ease-out forwards;
+    }
+
+    /* 個別設定 */
+    .orange-box {
+      position: absolute;
+      left: 50px;
+      bottom: 0;
+      width: 150px;
+      height: 400px;
+      background-color: #ffbf7f;
+      border: 2px solid #ffffff;
+    }
+
+    .home-title {
+      position: absolute;
+      top: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 36px;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+  </style>
+</head>
+<body>
+  <button class="bubble-btn" onclick="popBubble(this)"></button>
+  <button class="bubble-btn" onclick="popBubble(this)"></button>
+  <button class="bubble-btn" onclick="popBubble(this)"></button>
+  <div class="orange-box"></div>
+
+  <h1 class="home-title">HOME</h1>
+
+  <script>
+    function createBubble() {
+      const bubble = document.createElement('button');
+      bubble.classList.add('bubble-btn');
+      document.body.appendChild(bubble);
+
+      const size = Math.random() * (120 - 80) + 80; // サイズをランダムに
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+
+      const left = Math.random() * 100; // 位置をランダムに
+      const bottom = Math.random() * 100;
+      bubble.style.left = `${left}%`;
+      bubble.style.bottom = `${bottom}%`;
+
+      // ランダムな動き
+      const floatDuration = Math.random() * 3 + 5; // 浮かぶ時間
+      bubble.style.animationDuration = `${floatDuration}s`;
+
+      // クリックすると弾ける
+      bubble.addEventListener('click', function () {
+        popBubble(bubble);
+      });
+    }
+
+    function popBubble(button) {
+      // シャボン玉が弾けるエフェクト
+      button.style.animation = 'pop 0.2s ease-out forwards';
+      button.style.transition = 'transform 0.2s';
+
+      // シャボン玉が消える
+      setTimeout(() => {
+        button.remove();
+      }, 200);
+    }
+
+    // 定期的に新しいシャボン玉を生成
+    setInterval(createBubble, 1000); // 1秒ごとに泡を作成
+
+  </script>
+
+</body>
+</html>
